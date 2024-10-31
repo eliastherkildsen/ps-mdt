@@ -16,21 +16,21 @@ local calls = {}
 -- https://docs.fivemerr.com/integrations/mdt-scripts/ps-mdt
 -- Images for mug shots will be uploaded here and will not expire.
 local FivemerrMugShot = 'https://api.fivemerr.com/v1/media/images'
-local FivemerrApiKey = 'YOUR API KEY HERE'
+local FivemerrApiKey = 'fcnUxp2oiUjXeL0wR3fXVuvwtTKPOjml'
 
 --------------------------------
 -- NOT RECOMMENDED. WE RECOMMEND USING Fivemerr.
 -- SET YOUR WEHBOOKS IN HERE
 -- Images for mug shots will be uploaded here. Add a Discord webhook. 
-local MugShotWebhook = ''
+local MugShotWebhook = 'fcnUxp2oiUjXeL0wR3fXVuvwtTKPOjml'
 
 -- Clock-in notifications for duty. Add a Discord webhook.
 -- Command /mdtleaderboard, will display top players per clock-in hours.
-local ClockinWebhook = ''
+local ClockinWebhook = 'https://discordapp.com/api/webhooks/1299048415879233639/kQFJCm9NhOL1Ph30pxzJNCMVToLIqlx-byG6iyUiBYqDv21gMKqidDsm4GQa6yLB8Uuo'
 
 -- Incident and Incident editting. Add a Discord webhook.
 -- Incident Author, Title, and Report will display in webhook post.
-local IncidentWebhook = ''
+local IncidentWebhook = 'https://discordapp.com/api/webhooks/1299048502512455740/N-g9-efbyjruPp0fIYDgW3Po2xexK62kW5xJmkChKgxae0yZIQ0k6fOptnnrmwnv9v-a'
 --------------------------------
 
 QBCore.Functions.CreateCallback('ps-mdt:server:MugShotWebhook', function(source, cb)
@@ -400,39 +400,39 @@ QBCore.Functions.CreateCallback('mdt:server:GetProfileData', function(source, cb
 
 	local job, grade = UnpackJob(target.job)
 
-	if Config.UsingPsHousing and not Config.UsingDefaultQBApartments then
-		local propertyData = GetPlayerPropertiesByCitizenId(target.citizenid)
-		if propertyData and next(propertyData) then
-			local apartmentList = {}
-			for i, property in ipairs(propertyData) do
-				if property.apartment then
-					table.insert(apartmentList, property.apartment .. ' Apt # (' .. property.property_id .. ')')
-				end
-			end
-			if #apartmentList > 0 then
-				apartmentData = table.concat(apartmentList, ', ')
-			else
-				TriggerClientEvent("QBCore:Notify", src, 'The citizen does not have an apartment.', 'error')
-				print('The citizen does not have an apartment. Set Config.UsingPsHousing to false.')
-			end
-		else
-			TriggerClientEvent("QBCore:Notify", src, 'The citizen does not have a property.', 'error')
-			print('The citizen does not have a property. Set Config.UsingPsHousing to false.')
-		end	
-    elseif Config.UsingDefaultQBApartments then
-        apartmentData = GetPlayerApartment(target.citizenid)
-        if apartmentData then
-            if apartmentData[1] then
-                apartmentData = apartmentData[1].label .. ' (' ..apartmentData[1].name..')'
-            else
-                TriggerClientEvent("QBCore:Notify", src, 'The citizen does not have an apartment.', 'error')
-                print('The citizen does not have an apartment. Set Config.UsingDefaultQBApartments to false.')
-            end
-        else
-            TriggerClientEvent("QBCore:Notify", src, 'The citizen does not have an apartment.', 'error')
-            print('The citizen does not have an apartment. Set Config.UsingDefaultQBApartments to false.')
-        end
-    end
+	--if Config.UsingPsHousing and not Config.UsingDefaultQBApartments then
+	--	local propertyData = GetPlayerPropertiesByCitizenId(target.citizenid)
+	--	if propertyData and next(propertyData) then
+	--		local apartmentList = {}
+	--		for i, property in ipairs(propertyData) do
+	--			if property.apartment then
+	--				table.insert(apartmentList, property.apartment .. ' Apt # (' .. property.property_id .. ')')
+	--			end
+	--		end
+	--		if #apartmentList > 0 then
+	--			apartmentData = table.concat(apartmentList, ', ')
+	--		else
+	--			TriggerClientEvent("QBCore:Notify", src, 'The citizen does not have an apartment.', 'error')
+	--			print('The citizen does not have an apartment. Set Config.UsingPsHousing to false.')
+	--		end
+	--	else
+	--		TriggerClientEvent("QBCore:Notify", src, 'The citizen does not have a property.', 'error')
+	--		print('The citizen does not have a property. Set Config.UsingPsHousing to false.')
+	--	end	
+    --elseif Config.UsingDefaultQBApartments then
+    --    apartmentData = GetPlayerApartment(target.citizenid)
+    --    if apartmentData then
+    --        if apartmentData[1] then
+    --            apartmentData = apartmentData[1].label .. ' (' ..apartmentData[1].name..')'
+    --        else
+    --            TriggerClientEvent("QBCore:Notify", src, 'The citizen does not have an apartment.', 'error')
+    --            print('The citizen does not have an apartment. Set Config.UsingDefaultQBApartments to false.')
+    --        end
+    --    else
+    --        TriggerClientEvent("QBCore:Notify", src, 'The citizen does not have an apartment.', 'error')
+    --        print('The citizen does not have an apartment. Set Config.UsingDefaultQBApartments to false.')
+    --    end
+    --end
 
 	local person = {
 		cid = target.citizenid,
@@ -440,7 +440,7 @@ QBCore.Functions.CreateCallback('mdt:server:GetProfileData', function(source, cb
 		lastname = target.charinfo.lastname,
 		job = job.label,
 		grade = grade.name,
-		apartment = apartmentData,
+		--apartment = apartmentData,
 		pp = ProfPic(target.charinfo.gender),
 		licences = licencesdata,
 		dob = target.charinfo.birthdate,
@@ -449,7 +449,7 @@ QBCore.Functions.CreateCallback('mdt:server:GetProfileData', function(source, cb
 		mdtinfo = '',
 		tags = {},
 		vehicles = {},
-		properties = {},
+		--properties = {},
 		gallery = {},
 		isLimited = false
 	}
@@ -487,64 +487,62 @@ QBCore.Functions.CreateCallback('mdt:server:GetProfileData', function(source, cb
 
 		local hash = {}
 		person.convictions = {}
-
 		for _,v in ipairs(person.convictions2) do
 			if (not hash[v]) then
 				person.convictions[#person.convictions+1] = v
 				hash[v] = true
 			end
 		end
-
 		local vehicles = GetPlayerVehicles(person.cid)
-
 		if vehicles then
 			person.vehicles = vehicles
 		end
 
-		if Config.UsingPsHousing and not Config.UsingDefaultQBApartments then
-    		local Coords = {}
-    		local Houses = {}
-		local propertyData = GetPlayerPropertiesByCitizenId(target.citizenid)
-    		for k, v in pairs(propertyData) do
-				if not v.apartment then
-    		    	Coords[#Coords + 1] = {
-    		    	    coords = json.decode(v["door_data"]),
-    		    	    street = v["street"],
-    		    	    propertyid = v["property_id"],
-    		    	}
-				end
-    		end
-    		for index = 1, #Coords do
-    		    local coordsLocation, label
-    		    local coords = Coords[index]["coords"]
-
-    		    coordsLocation = tostring(coords.x .. "," .. coords.y .. "," .. coords.z)
-    		    label = tostring(Coords[index].propertyid .. " " .. Coords[index].street)
-			
-    		    Houses[#Houses + 1] = {
-    		        label = label,
-    		        coords = coordsLocation,
-    		    }
-    		end
-			person.properties = Houses
-		else
-			local Coords = {}
-			local Houses = {}
-			local properties= GetPlayerProperties(person.cid)
-			for k, v in pairs(properties) do
-				Coords[#Coords+1] = {
-					coords = json.decode(v["coords"]),
-				}
-			end
-			for index = 1, #Coords, 1 do
-				Houses[#Houses+1] = {
-					label = properties[index]["label"],
-					coords = tostring(Coords[index]["coords"]["enter"]["x"]..",".. Coords[index]["coords"]["enter"]["y"].. ",".. Coords[index]["coords"]["enter"]["z"]),
-				}
-			end
-			person.properties = Houses
-		end
+	--	if Config.UsingPsHousing and not Config.UsingDefaultQBApartments then
+    --		local Coords = {}
+    --		local Houses = {}
+	--	local propertyData = GetPlayerPropertiesByCitizenId(target.citizenid)
+    --		for k, v in pairs(propertyData) do
+	--			if not v.apartment then
+    --		    	Coords[#Coords + 1] = {
+    --		    	    coords = json.decode(v["door_data"]),
+    --		    	    street = v["street"],
+    --		    	    propertyid = v["property_id"],
+    --		    	}
+	--			end
+    --		end
+    --		for index = 1, #Coords do
+    --		    local coordsLocation, label
+    --		    local coords = Coords[index]["coords"]
+	--
+    --		    coordsLocation = tostring(coords.x .. "," .. coords.y .. "," .. coords.z)
+    --		    label = tostring(Coords[index].propertyid .. " " .. Coords[index].street)
+	--		
+    --		    Houses[#Houses + 1] = {
+    --		        label = label,
+    --		        coords = coordsLocation,
+    --		    }
+    --		end
+	--		person.properties = Houses
+	--	else
+	--		local Coords = {}
+	--		local Houses = {}
+	--		local properties= GetPlayerProperties(person.cid)
+	--		for k, v in pairs(properties) do
+	--			Coords[#Coords+1] = {
+	--				coords = json.decode(v["coords"]),
+	--			}
+	--		end
+	--		for index = 1, #Coords, 1 do
+	--			Houses[#Houses+1] = {
+	--				label = properties[index]["label"],
+	--				coords = tostring(Coords[index]["coords"]["enter"]["x"]..",".. Coords[index]["coords"]["enter"]["y"].. ",".. Coords[index]["coords"]["enter"]["z"]),
+	--			}
+	--		end
+	--		person.properties = Houses
+	--	end
 	end
+
 	local mdtData = GetPersonInformation(sentId, JobType)
 	if mdtData then
 		person.mdtinfo = mdtData.information

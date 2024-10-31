@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 :root {
-    --color-1: #1E3955;
-    --color-2: #213F5F;
-    --color-3: #2C537B;
+    --color-1: rgba(12, 12, 12, 0.4);
+    --color-2: rgba(12, 12, 12, 0.4);
+    --color-3: rgba(12, 12, 12, 0.4);
     --color-4: #23405E;
     --color-5: #152638;
     --color-6: #121f2c;

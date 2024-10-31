@@ -147,13 +147,15 @@ function UpdateAllLicenses(identifier, incomingLicenses)
     else
         local result = MySQL.scalar.await('SELECT metadata FROM players WHERE citizenid = @identifier', {['@identifier'] = identifier})
         result = json.decode(result)
-
-        result.licences = result.licences or {
-            ['driver'] = true,
-            ['business'] = false,
-            ['weapon'] = false,
-            ['pilot'] = false
-        }
+        
+        if result == nil then
+            result.licences = {
+                ['driver'] = true,
+                ['business'] = false,
+                ['weapon'] = false,
+                ['pilot'] = false
+            }
+        end
 
         for k, _ in pairs(incomingLicenses) do
             result.licences[k] = incomingLicenses[k]
